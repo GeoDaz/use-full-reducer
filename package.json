@@ -1,6 +1,6 @@
 {
   "name": "use-full-reducer",
-  "version": "1.0.0.16",
+  "version": "1.0.0.18",
   "description": "Wrap useReducer hook to manage actions and selectors",
   "author": "GeoDaz",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^18.0.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
