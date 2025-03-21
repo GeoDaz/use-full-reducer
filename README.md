@@ -15,37 +15,40 @@ npm install --save use-full-reducer
 ### useFullReducer
 
 ```jsx
-import useFullReducer from 'use-full-reducer'
+import { useFullReducer } from 'use-full-reducer'
+import { createSlice } from '@reduxjs/toolkit'
 
-const [reducerValue, actions, selectors] = useFullReducer(
-  reducerName,
-  [myAction],
-  [mySelector],
-  initialReducerValue,
-  initialReducerFunc
-)
-```
+// Create a slice with @reduxjs/toolkit
+const mySlice = createSlice({
+  name: 'myReducer',
+  initialState: { /* your initial state */ },
+    // Your reducers here
+  reducers: {
+    setForm: (state, {payload: form}) => form || state,
+    setValue: {
+      reducer: (state, {payload: {name, value}}) => {
+        state[name] = value
+      },
+      prepare: (name, value) => ({payload: {name, value}})
+    }
+  }
+})
 
-Example :
-
-```jsx
-import useFullReducer from 'use-full-reducer'
-import { setFormAction, setValueAction } from '../actions/form'
-import { selectFormData } from '../selectors/form'
-
+// Use the hook
 const defaultValue = {};
 const initValue = (value) => {...value, /* some changes */};
-const [
-  form,
-  [setForm, setValue],
-  [getFormData]
-] = useFullReducer(
-  formReducer,
-  [setFormAction, setValueAction],
-  [selectFormData],
+
+const [form, formActions] = useFullReducer(
+  mySlice,
   defaultValue,
   initValue
 )
+const { setForm, setValue } = formActions;
+
+// Then use the state and actions
+const handleClick = e => {
+  setValue(name, e.target.value)
+}
 ```
 
 ### useActions
@@ -57,37 +60,20 @@ import { useActions } from 'use-full-reducer'
 const actions = useActions(dispatch, [myAction])
 ```
 
-Example :
+Example:
 
 ```jsx
 import { useDispatch } from 'react-redux'
 import { useActions } from 'use-full-reducer'
-import { setObjectAction, setValueAction } from '../actions'
+import { mySlice } from '../reducers/myReducer'
 
 const dispatch = useDispatch()
-const [setObject, setValue] = useActions(dispatch, [
-  setObjectAction,
-  setValueAction
-])
-```
+const { myAction } = useActions(dispatch, mySlice.actions)
 
-### useSelectors
-
-```jsx
-import { useSelectors } from 'use-full-reducer'
-
-// reducerValue can come from useReducer or useSelector hooks
-const selector = useSelectors(reducerValue, [mySelector])
-```
-
-Example :
-
-```jsx
-import { useSelectors } from 'use-full-reducer'
-import { count } from '../selectors'
-
-const [state, dispatch] = useReducer(reducer, initialState)
-const [countValues] = useSelectors(state, [count])
+// Now you can use the actions
+const handleClick = () => {
+  myAction('new value')
+}
 ```
 
 ### usePrevious
@@ -105,6 +91,10 @@ useEffect(() => {
   }
 }, [entity.id])
 ```
+
+## TypeScript Support
+
+This package is fully written in TypeScript and provides type definitions out of the box.
 
 ## License
 
