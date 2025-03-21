@@ -1,18 +1,17 @@
 import { useReducer } from 'react'
-import useActions from './useActions'
-import useSelectors from './useSelectors'
 
 /** Use it when you need actions and selectors */
-export const useFullReducer = (
-  reducer,
-  actions = [],
-  selectors = [],
-  initializerArg,
-  initializer
-) => {
-  const [state, dispatch] = useReducer(reducer, initializerArg, initializer)
-  const mappedActions = useActions(dispatch, actions)
-  const mappedSelectors = useSelectors(state, selectors)
-  return [state, mappedActions, mappedSelectors]
+export const useFullReducer = (slice, initializerArg, initializer) => {
+  const [state, dispatch] = useReducer(
+    slice.reducer,
+    initializerArg,
+    initializer
+  )
+
+  // Bind action creators to dispatch
+  const actions = bindActionCreators(slice.actions, dispatch)
+
+  return [state, actions, slice.selectors]
 }
+
 export default useFullReducer

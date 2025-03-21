@@ -1,13 +1,3 @@
-import { useMemo } from 'react'
+import { bindActionCreators } from 'redux'
 
-export const useActions = (dispatch, actions) =>
-  useMemo(
-    () =>
-      actions.map(
-        (action) =>
-          (...args) =>
-            dispatch(action(...args))
-      ),
-    [dispatch]
-  )
-export default useActions
+export default bindActionCreators
