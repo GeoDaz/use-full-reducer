@@ -1,6 +1,6 @@
 {
   "name": "use-full-reducer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Wrap useReducer hook to manage actions and selectors",
   "author": "GeoDaz",
   "license": "MIT",
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
-		"dist": "npm run build && npm version patch && npm publish && git push",
+    "dist": "npm run build && npm version patch && npm publish && git push",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
